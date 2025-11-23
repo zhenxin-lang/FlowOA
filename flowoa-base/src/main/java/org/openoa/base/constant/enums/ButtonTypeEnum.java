@@ -2,11 +2,7 @@ package org.openoa.base.constant.enums;
 
 import lombok.Getter;
 
-/**
- * @Classname ButtonTypeEnum
- * @since 0.5
- * @Created by AntOffice
- */
+
 public enum ButtonTypeEnum implements AfEnumBase{
     BUTTON_TYPE_PREVIEW(0, "预览"),
     BUTTON_TYPE_SUBMIT(1, "提交"),

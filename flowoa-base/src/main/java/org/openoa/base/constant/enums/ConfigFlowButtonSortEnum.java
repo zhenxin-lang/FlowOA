@@ -2,15 +2,7 @@ package org.openoa.base.constant.enums;
 
 import lombok.Getter;
 
-/**
- * 可配置化流程按钮排序参数
- *@Author JimuOffice
- * @Description //TODO $
- * @Date 2022-05-04 10:00
- * @Param
- * @return
- * @Version 1.0
- */
+
 public enum ConfigFlowButtonSortEnum implements AfEnumBase {
     SUBMIT(1, "提交", 1),
     AGAIN_SUBMIT(2, "重新提交", 2), // 2重新提交
