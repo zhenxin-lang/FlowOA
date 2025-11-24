@@ -1,0 +1,30 @@
+package org.openoa.base.vo;
+
+import lombok.Data;
+
+
+@Data
+public class BpmnNodeConditionsConfVueVo {
+    private String showType;
+    private String columnId;
+    private Integer formId;
+    private Integer type;
+    private String showName;
+    private Integer optType;
+    private String zdy1;
+    private String opt1;
+    private String zdy2;
+    private String opt2;
+    private String columnDbname;
+    private String columnType;
+    private String fieldTypeName;
+    private Boolean multiple;
+    private Integer multipleLimit;
+    private String fixedDownBoxValue;
+    /**
+     * 0 for and,1 for or,default to or
+     * @see org.openoa.base.constant.enums.ConditionRelationShipEnum
+     */
+    private Boolean condRelation=false;
+    private Integer condGroup;
+}
