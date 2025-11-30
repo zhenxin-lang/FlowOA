@@ -7,9 +7,7 @@ import org.openoa.base.service.BusinessCallBackFace;
 
 import java.util.*;
 
-/**
- * @Author tylerzhou
- */
+
 @Slf4j
 public enum BusinessCallbackEnum implements AfEnumBase{
     PROCESS_EVENT_CALLBACK(1, ProcessBusinessCallBackTypeEnum.class, "流程类回调枚举"),

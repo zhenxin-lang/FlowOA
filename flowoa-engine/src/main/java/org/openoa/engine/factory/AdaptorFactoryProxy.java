@@ -6,10 +6,6 @@ import org.openoa.base.exception.AFBizException;
 import org.openoa.base.interf.anno.AutoParse;
 import org.openoa.base.util.SpringBeanUtils;
 
-/**
- * please be noticed that is class is designed for specific business,not for general use,please do not use it for other purposes
- * if you want to generate a proxy object,you should know what you are doing,SimpleProxyFactory maybe  be suitable for your needs
- */
 @Slf4j
 public class AdaptorFactoryProxy {
 

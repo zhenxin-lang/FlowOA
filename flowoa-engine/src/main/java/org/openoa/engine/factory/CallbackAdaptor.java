@@ -14,13 +14,6 @@ public interface CallbackAdaptor<req extends CallbackReqVo, resp extends Callbac
 
     resp formatResponce(String resultJson);
 
-    /**
-     * 获得创建的空的回调返回对象
-     *
-     * @return
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     */
     default resp getNewRespObj() throws IllegalAccessException, InstantiationException {
         Type[] genericInterfaces = this.getClass().getGenericInterfaces();
 

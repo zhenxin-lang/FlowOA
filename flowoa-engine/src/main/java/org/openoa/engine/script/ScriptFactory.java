@@ -18,7 +18,7 @@ public class ScriptFactory {
     }
     @Bean
     ExpressionFactory expressionFactory(){
-        return org.activiti.engine.impl.javax.el.ExpressionFactory.newInstance();
+        return ExpressionFactory.newInstance();
     }
     @Bean
     EvaluationContext evaluationContext(){

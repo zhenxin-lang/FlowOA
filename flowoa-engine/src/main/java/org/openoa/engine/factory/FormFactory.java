@@ -48,12 +48,6 @@ public class FormFactory implements ApplicationContextAware {
         return (FormOperationAdaptor) activitiService;
     }
 
-    /**
-     *
-     * @param params the request body string
-     * @param formCode if caller can't provide,pass null
-     * @return
-     */
     public BusinessDataVo dataFormConversion(String params,String formCode) {
         BusinessDataVo vo = JSON.parseObject(params, BusinessDataVo.class);
         if(formCode==null){

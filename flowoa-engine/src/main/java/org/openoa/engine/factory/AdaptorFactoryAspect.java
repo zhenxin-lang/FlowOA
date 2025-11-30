@@ -1,7 +1,3 @@
-/*
- * Sto Express Tracking api 2019
- */
-
 package org.openoa.engine.factory;
 
 import lombok.extern.slf4j.Slf4j;
