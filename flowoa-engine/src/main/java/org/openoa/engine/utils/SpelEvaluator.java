@@ -3,7 +3,7 @@ package org.openoa.engine.utils;
 import org.openoa.base.util.SpringBeanUtils;
 import org.openoa.base.vo.BpmnStartConditionsVo;
 import org.openoa.base.vo.BusinessDataVo;
-import org.openoa.engine.bpmnconf.constant.AntFlowConstants;
+import org.openoa.engine.bpmnconf.constant.FlowOAConstants;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -23,7 +23,7 @@ public class SpelEvaluator {
             }
         }else{
             evaluationContext = SpringBeanUtils.getBean(EvaluationContext.class);
-            evaluationContext.setVariable(AntFlowConstants.SCRIPT_CONTEXT, businessDataVo);
+            evaluationContext.setVariable(FlowOAConstants.SCRIPT_CONTEXT, businessDataVo);
         }
         Boolean evaluatedResult = expressionParser.parseExpression(expression).getValue(evaluationContext,Boolean.class);
         return Boolean.TRUE.equals(evaluatedResult);

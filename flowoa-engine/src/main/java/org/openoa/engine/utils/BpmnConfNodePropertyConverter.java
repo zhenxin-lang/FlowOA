@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openoa.base.constant.StringConstants;
 import org.openoa.base.constant.enums.ConditionRelationShipEnum;
-import org.openoa.engine.bpmnconf.constant.AntFlowConstants;
+import org.openoa.engine.bpmnconf.constant.FlowOAConstants;
 import org.openoa.engine.bpmnconf.constant.enus.ConditionTypeEnum;
 import org.openoa.base.constant.enums.JudgeOperatorEnum;
 import org.openoa.base.vo.*;
@@ -123,7 +123,7 @@ public class BpmnConfNodePropertyConverter {
                         if(symbol==null){
                             throw new AFBizException(String.format("condition optype of %d is undefined!",optType));
                         }
-                        Field opField = FieldUtils.getField(BpmnNodeConditionsConfBaseVo.class, AntFlowConstants.NUM_OPERATOR, true);
+                        Field opField = FieldUtils.getField(BpmnNodeConditionsConfBaseVo.class, FlowOAConstants.NUM_OPERATOR, true);
                         ReflectionUtils.setField(opField,result,symbol.getCode());
                     }
                     if(String.class.isAssignableFrom(fieldCls)){
