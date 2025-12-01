@@ -1,0 +1,30 @@
+package org.openoa.engine.bpmnconf.service.impl;
+
+
+import lombok.extern.slf4j.Slf4j;
+import org.openoa.base.entity.Department;
+import org.openoa.engine.bpmnconf.mapper.DepartmentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+
+/**
+ * department service
+ * generic department service
+ * @since 0.5
+ */
+@Slf4j
+@Repository
+public class DepartmentServiceImpl {
+    @Autowired
+    private DepartmentMapper departmentMapper;;
+
+    public List<Department> ListSubDepartmentByEmployeeId(String userId) {
+        return departmentMapper.ListSubDepartmentByEmployeeId(userId);
+    }
+    public Department getDepartmentByEmployeeId(String userId){
+        return departmentMapper.getDepartmentByEmployeeId(userId);
+    }
+}

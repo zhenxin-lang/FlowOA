@@ -1,0 +1,20 @@
+package org.openoa.engine.bpmnconf.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.openoa.base.entity.BpmVariableButton;
+import org.openoa.engine.bpmnconf.mapper.BpmVariableButtonMapper;
+import org.openoa.engine.bpmnconf.service.interf.repository.BpmVariableButtonService;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+
+@Repository
+public class BpmVariableButtonServiceImpl extends ServiceImpl<BpmVariableButtonMapper, BpmVariableButton>  implements BpmVariableButtonService {
+
+
+    public List<BpmVariableButton> getButtonsByProcessNumber(String processNum, String elementId) {
+
+        return this.getBaseMapper().getButtonsByProcessNumber(processNum, elementId);
+    }
+}
