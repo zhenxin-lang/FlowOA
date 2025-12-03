@@ -20,8 +20,6 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class RestInterceptor implements ClientHttpRequestInterceptor {
 
-
-
     @Override
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
 

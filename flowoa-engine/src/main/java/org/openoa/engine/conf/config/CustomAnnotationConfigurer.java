@@ -35,6 +35,7 @@ public class CustomAnnotationConfigurer implements ApplicationContextAware, Bean
      */
     private String[] scanPackages;
 
+
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
         scanPackages = configurableListableBeanFactory.resolveEmbeddedValue("${antflow.common.scan-packages:" +

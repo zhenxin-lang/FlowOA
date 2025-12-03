@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class RestTemplateConfig {
 
+
     @Bean
     RestTemplate restTemplate(@Qualifier("clientHttpRequestFactory") ClientHttpRequestFactory requestFactory,RestInterceptor restInterceptor) {
         requestFactory = requestFactory instanceof BufferingClientHttpRequestFactory ? requestFactory : new BufferingClientHttpRequestFactory(requestFactory);
