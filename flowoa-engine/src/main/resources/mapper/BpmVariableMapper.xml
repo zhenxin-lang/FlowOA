@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.openoa.engine.bpmnconf.mapper.BpmVariableMapper">
+
+
+    <select id="getElementIdsdByNodeId" resultType="java.lang.String">
+        select tbvs.element_id from t_bpm_variable tbv join t_bpm_variable_single tbvs  on tbv.id=tbvs.variable_id
+        where tbv.process_num=#{processNum} and tbvs.node_id=#{nodeId}
+        union all
+        select tbvm.element_id from t_bpm_variable tbv join t_bpm_variable_multiplayer tbvm on tbvm.variable_id=tbv.id
+        where tbv.process_num=#{processNum} and tbvm.node_id=#{nodeId}
+    </select>
+    <select id="getVarNamesdByNodeId" resultType="java.lang.String">
+        select tbvs.assignee_param_name from t_bpm_variable tbv join t_bpm_variable_single tbvs  on tbv.id=tbvs.variable_id
+        where tbv.process_num=#{processNum} and tbvs.node_id=#{nodeId}
+        union all
+        select tbvm.collection_name from t_bpm_variable tbv join t_bpm_variable_multiplayer tbvm on tbvm.variable_id=tbv.id
+        where tbv.process_num=#{processNum} and tbvm.node_id=#{nodeId}
+    </select>
+    <select id="getNodeIdsByeElementId" resultType="java.lang.String">
+        select tbvs.node_id from t_bpm_variable tbv join t_bpm_variable_single tbvs  on tbv.id=tbvs.variable_id
+        where tbv.process_num=#{processNum} and tbvs.element_id=#{elementId}
+        union all
+        select tbvm.node_id from t_bpm_variable tbv join t_bpm_variable_multiplayer tbvm on tbvm.variable_id=tbv.id
+        where tbv.process_num=#{processNum} and tbvm.element_id=#{elementId}
+    </select>
+    <update id="resetUnderStatusByProcessNumber">
+        update t_bpm_variable_multiplayer_personnel tbvmp
+        inner join t_bpm_variable_multiplayer tbvm on tbvmp.variable_multiplayer_id = tbvm.id
+        inner join t_bpm_variable tbv on tbvm.variable_id = tbv.id
+        set tbvmp.undertake_status=0
+        where tbv.process_num = #{processNum}
+    </update>
+    <update id="invalidNodeAssignee">
+        update t_bpm_variable_multiplayer_personnel tbvmp
+        inner join t_bpm_variable_multiplayer tbvm on tbvmp.variable_multiplayer_id = tbvm.id
+        inner join t_bpm_variable tbv on tbvm.variable_id = tbv.id
+        set tbvmp.is_del=1 , tbvmp.remark='管理员减签'
+        where tbv.process_num = #{processNum} and tbvm.element_id=#{elementId} and tbvmp.assignee=#{assignee}
+    </update>
+    <select id="querymultiplayersbyprocesselementid"
+            resultType="org.openoa.common.entity.BpmVariableMultiplayer">
+
+        select tbvm.*
+        from t_bpm_variable tbv
+        inner join t_bpm_variable_multiplayer tbvm on tbvm.variable_id = tbv.id
+        where tbv.process_num = #{processNum}
+        and tbvm.element_id = #{elementId}
+    </select>
+    <update id="updateSingle">
+        update t_bpm_variable_single tbvs
+        inner join t_bpm_variable tbv on tbvs.variable_id = tbv.id
+        set tbvs.assignee=#{newAssignee},assignee_name=#{newAssigneeName}
+        where tbv.process_num=#{processNum} and tbvs.element_id=#{elementId} and tbvs.assignee=#{assignee}
+    </update>
+    <update id="updateMultiPlayer">
+        update t_bpm_variable_multiplayer_personnel tbvmp
+        inner join t_bpm_variable_multiplayer tbvm on tbvmp.variable_multiplayer_id=tbvm.id
+        inner join t_bpm_variable tbv on tbvm.variable_id=tbv.id
+        set tbvmp.assignee=#{newAssignee},tbvmp.assignee_name=#{newAssigneeName}
+        where tbv.process_num=#{processNum} and tbvm.element_id=#{elementId} and tbvmp.assignee=#{assignee}
+    </update>
+    <update id="updateSingleById">
+        update t_bpm_variable_single tbvs
+            inner join t_bpm_variable tbv on tbvs.variable_id = tbv.id
+            set tbvs.assignee=#{newAssignee},assignee_name=#{newAssigneeName}
+        where tbvs.id=#{id} and tbv.process_num=#{processNum} and tbvs.element_id=#{elementId} and tbvs.assignee=#{assignee}
+    </update>
+    <update id="updateMultiPlayerById">
+        update t_bpm_variable_multiplayer_personnel tbvmp
+            inner join t_bpm_variable_multiplayer tbvm on tbvmp.variable_multiplayer_id=tbvm.id
+            inner join t_bpm_variable tbv on tbvm.variable_id=tbv.id
+            set tbvmp.assignee=#{newAssignee},tbvmp.assignee_name=#{newAssigneeName}
+        where tbvmp.id=#{id} and tbv.process_num=#{processNum} and tbvm.element_id=#{elementId} and tbvmp.assignee=#{assignee}
+    </update>
+</mapper>
