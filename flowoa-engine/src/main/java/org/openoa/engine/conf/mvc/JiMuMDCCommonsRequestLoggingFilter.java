@@ -1,0 +1,115 @@
+package org.openoa.engine.conf.mvc;
+
+import org.apache.commons.lang3.StringUtils;
+import org.openoa.base.constant.StringConstants;
+import org.openoa.base.service.AfUserService;
+import org.openoa.base.util.MDCLogUtil;
+import org.openoa.base.util.ThreadLocalContainer;
+import org.openoa.base.vo.BaseIdTranStruVo;
+import org.openoa.engine.conf.engineconfig.MultiTenantIdHolder;
+import org.openoa.engine.conf.engineconfig.MultiTenantInfoHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
+
+@Component
+public class JiMuMDCCommonsRequestLoggingFilter extends CommonsRequestLoggingFilter {
+    @Autowired
+    private AfUserService userService;
+    //MultiTenantIdHolder为单库多租户,即靠tenantId字段区分租户
+    @Autowired
+    private MultiTenantIdHolder tenantIdHolder;
+
+    @Override
+    protected boolean shouldLog(HttpServletRequest request) {
+        return true;
+    }
+
+    @Override
+    protected void beforeRequest(HttpServletRequest request, String message) {
+        MDCLogUtil.resetLogId();
+        if (!request.getMethod().equals("OPTIONS")) {
+            String userId = request.getHeader("userId");
+            String userName = request.getHeader("userName");
+            //tenantId是单库多租户,即靠tenantId字段来区分不同租户
+            //tenantUser是分库多租户,每个租户一个数据库
+            String tenantId=request.getHeader(StringConstants.TENANT_ID);
+            String tenantUser=request.getHeader(StringConstants.TENANT_USER);
+            if(!StringUtils.isEmpty(tenantId)){
+                tenantIdHolder.setCurrentTenantId(tenantId);
+            }
+            if(!StringUtils.isEmpty(tenantUser)){
+                ThreadLocalContainer.set(StringConstants.TENANT_USER,tenantUser);
+            }
+            if(!StringUtils.isEmpty(userName)){
+                try {
+                    userName = URLDecoder.decode(userName, StandardCharsets.UTF_8.name());
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (StringUtils.isEmpty(userId)) {
+                userId = request.getHeader("Userid");
+            }
+            if (!StringUtils.isEmpty(userId)) {
+                if(!StringUtils.isEmpty(userName)){
+                    BaseIdTranStruVo userInfo = BaseIdTranStruVo.builder().id(userId).name(userName).build();
+                    ThreadLocalContainer.set("currentuser", userInfo);
+                }else{
+                    BaseIdTranStruVo userById = userService.getById(userId);
+                    if (userById != null && StringUtils.isEmpty(userName)) {
+                        userName = userById.getName();
+                        BaseIdTranStruVo userInfo = BaseIdTranStruVo.builder().id(userId).name(userName).build();
+                        ThreadLocalContainer.set("currentuser", userInfo);
+                    }
+                    if (logger.isDebugEnabled()) {
+                        logger.info("开始输出详细日志");
+                        super.beforeRequest(request, message);
+                    }
+                }
+
+            }
+            if (!StringUtils.isEmpty(userName)) {
+                ThreadLocalContainer.set("userName", userName);
+            }
+
+            if (!StringUtils.isEmpty(userId)) {
+                ThreadLocalContainer.set("userId", userId);
+            }
+        }
+    }
+
+    @Override
+    protected void afterRequest(HttpServletRequest request, String message) {
+        ThreadLocalContainer.clean();
+        if (logger.isDebugEnabled()) {
+            super.afterRequest(request, message);
+        }
+    }
+
+    @Override
+    protected boolean isIncludeHeaders() {
+        return logger.isDebugEnabled() || super.isIncludeHeaders();
+    }
+
+    @Override
+    protected boolean isIncludeQueryString() {
+        return logger.isDebugEnabled() || super.isIncludeQueryString();
+    }
+
+    @Override
+    protected boolean isIncludePayload() {
+        return logger.isDebugEnabled() || super.isIncludePayload();
+    }
+
+    @Override
+    protected boolean isIncludeClientInfo() {
+        return logger.isDebugEnabled() || super.isIncludeClientInfo();
+    }
+}
