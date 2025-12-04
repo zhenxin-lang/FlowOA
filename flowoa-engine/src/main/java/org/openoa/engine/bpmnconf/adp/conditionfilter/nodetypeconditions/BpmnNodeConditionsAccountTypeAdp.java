@@ -1,0 +1,36 @@
+package org.openoa.engine.bpmnconf.adp.conditionfilter.nodetypeconditions;
+
+import lombok.extern.slf4j.Slf4j;
+import org.openoa.base.vo.BaseIdTranStruVo;
+import org.openoa.base.vo.BpmnNodeConditionsConfBaseVo;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Slf4j
+@Component
+public class BpmnNodeConditionsAccountTypeAdp extends BpmnNodeConditionsAdaptor {
+    @Override
+    public void setConditionsResps(BpmnNodeConditionsConfBaseVo bpmnNodeConditionsConfBaseVo) {
+       //todo for demo only
+        List<BaseIdTranStruVo>vos=new ArrayList<>();
+
+        for (int i = 1; i < 4; i++) {
+            BaseIdTranStruVo vo=new BaseIdTranStruVo();
+            vo.setId(String.valueOf(i));
+            String name= "";
+            switch (i){
+                case 1:name="百度云";
+                break;
+                case 2:name="腾讯云";
+                break;
+                case 3:name="中通云";
+            }
+            vo.setName(name);
+            vos.add(vo);
+        }
+        bpmnNodeConditionsConfBaseVo.setAccountTypeList(vos);
+    }
+}
