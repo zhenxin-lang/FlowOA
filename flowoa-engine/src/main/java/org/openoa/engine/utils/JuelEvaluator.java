@@ -5,7 +5,7 @@ import org.activiti.engine.impl.juel.SimpleContext;
 import org.openoa.base.util.SpringBeanUtils;
 import org.openoa.base.vo.BpmnStartConditionsVo;
 import org.openoa.base.vo.BusinessDataVo;
-import org.openoa.engine.bpmnconf.constant.AntFlowConstants;
+import org.openoa.engine.bpmnconf.constant.FlowOAConstants;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class JuelEvaluator{
             }
         }else{
             simpleContext=SpringBeanUtils.getBean(SimpleContext.class);
-            simpleContext.setVariable(AntFlowConstants.SCRIPT_CONTEXT, expressionFactory.createValueExpression(businessDataVo, BusinessDataVo.class));
+            simpleContext.setVariable(FlowOAConstants.SCRIPT_CONTEXT, expressionFactory.createValueExpression(businessDataVo, BusinessDataVo.class));
         }
 
         Boolean evaluatedResult = (Boolean) expressionFactory.createValueExpression(simpleContext, expression, Boolean.class).getValue(simpleContext);

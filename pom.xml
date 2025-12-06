@@ -7,7 +7,6 @@
         <module>flowoa-web</module>
         <module>flowoa-base</module>
         <module>flowoa-engine</module>
-        <module>flowoa-base</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
