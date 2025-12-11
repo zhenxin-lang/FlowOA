@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.openoa.mapper.StudentMapper">
+
+    <select id="selectOneStudent" resultType="org.openoa.entity.Student">
+        select *
+        from t_student
+        where id = 1;
+    </select>
+    <select id="getStudentList" resultType="org.openoa.entity.Student">
+        select * from t_student
+    </select>
+    <select id="selectAllStudent" resultType="org.openoa.base.vo.BaseIdTranStruVo">
+        select t.${empTblIdFieldName} as id,user_name as name from ${empTblName} t
+    </select>
+</mapper>
