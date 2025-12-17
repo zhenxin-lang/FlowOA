@@ -11,7 +11,6 @@ log/
 *.iws
 *.iml
 *.ipr
-*.properties
 
 
 ### Eclipse ###
